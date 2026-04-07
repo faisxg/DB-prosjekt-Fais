@@ -12,9 +12,12 @@ const db = new Database('listeapp.db');
 const cors = require('cors');
 app.use(cors());
 
+// Kobler sammen serveren med pub-mappen
+app.use(express.static('pub'));
+
 // Eksempel på en rute som henter alle fjell, beskrivelse, høydene og bilde deres
-app.get('/api/fjell_info', (req, res) => {
-    const rows = db.prepare('SELECT fjellnavn, hoyde, beskrivelse, foto FROM fjell').all();
+app.get('/api/typeliste', (req, res) => {
+    const rows = db.prepare('SELECT liste.type, bruker.fornavn FROM liste INNER JOIN bruker ON liste.brukerid = bruker.brukerid').all();
     res.json(rows);
 });
 

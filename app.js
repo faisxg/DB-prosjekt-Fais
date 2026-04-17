@@ -15,11 +15,21 @@ app.use(cors());
 // Kobler sammen serveren med pub-mappen
 app.use(express.static('pub'));
 
-// Eksempel på en rute som henter alle fjell, beskrivelse, høydene og bilde deres
-app.get('/api/typeliste', (req, res) => {
-    const rows = db.prepare('SELECT liste.type, bruker.fornavn FROM liste INNER JOIN bruker ON liste.brukerid = bruker.brukerid').all();
+// Ruter:
+app.get('/api/listerbrukere', (req, res) => {
+    const rows = db.prepare('SELECT liste.type, bruker.brukernavn FROM liste INNER JOIN bruker ON liste.brukernavn = bruker.brukernavn').all();
     res.json(rows);
 });
+
+// app.get('/api/liste/:brukernavn', (req, res) => {
+//     const brukernavn = req.params.brukernavn;
+//     if (!brukernavn) return res.status(400).json({ error: 'Mangler brukernavn' });
+
+//     const rows = db.prepare('SELECT fjell.fjellnavn FROM fjelltur INNER JOIN fjell ON fjelltur.fjell_id = fjell.fjell_id WHERE fjelltur.brukernavn = ?').all(brukernavn);
+
+//     res.json(rows);
+// });
+
 
 // Åpner en viss port på serveren, og starter serveren
 app.listen(PORT, () => {

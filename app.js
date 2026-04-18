@@ -16,19 +16,22 @@ app.use(cors());
 app.use(express.static('pub'));
 
 // Ruter:
-app.get('/api/listerbrukere', (req, res) => {
-    const rows = db.prepare('SELECT liste.type, bruker.brukernavn FROM liste INNER JOIN bruker ON liste.brukernavn = bruker.brukernavn').all();
+
+// Rute for brukere
+app.get('/api/brukere', (req, res) => {
+    const rows = db.prepare('SELECT bruker.brukernavn FROM bruker').all();
     res.json(rows);
 });
 
-// app.get('/api/liste/:brukernavn', (req, res) => {
-//     const brukernavn = req.params.brukernavn;
-//     if (!brukernavn) return res.status(400).json({ error: 'Mangler brukernavn' });
+// Rute for listenavn, innhold, fornavn og etternavn til en bruker, fristdato for shoplister og type liste for listene til en viss bruker.
+app.get('/api/liste/:brukernavn', (req, res) => {
+    const brukernavn = req.params.brukernavn;
+    if (!brukernavn) return res.status(400).json({ error: 'Mangler brukernavn' });
 
-//     const rows = db.prepare('SELECT fjell.fjellnavn FROM fjelltur INNER JOIN fjell ON fjelltur.fjell_id = fjell.fjell_id WHERE fjelltur.brukernavn = ?').all(brukernavn);
+    const rows = db.prepare('SELECT liste.listenavn, element.innhold, bruker.fornavn, bruker.etternavn, liste.type, liste.fristdato FROM element JOIN liste ON element.listeid = liste.listeid JOIN bruker ON liste.brukernavn = bruker.brukernavn WHERE liste.brukernavn = ?').all(brukernavn);
 
-//     res.json(rows);
-// });
+    res.json(rows);
+});
 
 
 // Åpner en viss port på serveren, og starter serveren

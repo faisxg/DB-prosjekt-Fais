@@ -34,19 +34,21 @@ document.getElementById("bruker").addEventListener("change", async function () {
             // Filtrer ut elementene som tilhører AKKURAT denne listen
             const listeInnhold = data.filter(item => item.listenavn === navn);
 
-            // Lag overskrift (Henter typen fra det første elementet i denne spesifikke listen, vil være det samme utover alle elementene)
-            const h3 = document.createElement("h3");
+            console.log(listeInnhold)
+
+            // Lager overskrift (Henter typen fra det første elementet i denne spesifikke listen, vil være det samme utover alle elementene)
+            const overskrift = document.createElement("h3");
             const kategori = listeInnhold[0].type; 
             
             // Fristdatoer som bare skal vises dersom listen er av kategort "Shoplist"
             if (kategori == "Shoplist") {
-                h3.textContent = `${navn} (type: ${kategori}) Fristdato: ${data[0].fristdato}`;
+                overskrift.textContent = `${navn} (type: ${kategori}) Fristdato: ${data[0].fristdato}`;
             }
             else {
-                h3.textContent = `${navn} (type: ${kategori})`
+                overskrift.textContent = `${navn} (type: ${kategori})`
             }
             
-            utskrift.appendChild(h3);
+            utskrift.appendChild(overskrift);
 
             const ul = document.createElement("ul");
 

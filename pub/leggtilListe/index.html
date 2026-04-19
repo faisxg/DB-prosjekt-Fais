@@ -3,9 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Legg til en liste</title>
+    <script src="nyliste.js" defer></script>
+    <link rel="stylesheet" href="nyliste.css">
 </head>
 <body>
-    
+    <nav>
+        <a href="../index.html">Tilbake</a>
+        <a href="../nybruker/index.html">Registrer ny bruker?</a>
+    </nav>
+    <main>
+        <form id="nyliste_form">
+            <label for="brukerdropdown">Bruker:</label>
+            <select name="brukerdropdown" id="brukerdropdown" required>
+                <option value="">Velg en person</option>
+            </select>
+
+            <label for="listetype">Listetype:</label>
+            <select name="listetype" id="listetype" required>
+                <option value="">Velg en type</option>
+                <option value="Shoplist">Shoplist</option>
+                <option value="Wishlist">Wishlist</option>
+                <option value="Ranking">Ranking</option>
+            </select>
+
+            <label for="listenavn">Listenavn:</label>
+            <input type="text" name="listenavn" id="listenavn" required>
+
+            <label for="listeinnhold">Listeinnhold:</label>
+            <input type="text" name="listeinnhold" id="listeinnhold">
+            <button type="button" id="leggtil">Legg til element</button>
+            <button type="button" id="tom">Tøm listen</button>
+
+            <button type="submit">Ferdig</button>
+        </form>
+        <div id="listeforhandsvis"></div>
+    </main>
 </body>
 </html>

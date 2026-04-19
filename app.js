@@ -17,13 +17,13 @@ app.use(express.static('pub'));
 
 // Ruter:
 
-// Rute for brukere
+// Rute for henting av brukere
 app.get('/api/brukere', (req, res) => {
     const rows = db.prepare('SELECT bruker.brukernavn FROM bruker').all();
     res.json(rows);
 });
 
-// Rute for listenavn, innhold, fornavn og etternavn til en bruker, fristdato for shoplister og type liste for listene til en viss bruker.
+// Rute for henting av listenavn, innhold, fornavn og etternavn til en bruker, fristdato for shoplister og type liste for listene til en viss bruker.
 app.get('/api/liste/:brukernavn', (req, res) => {
     const brukernavn = req.params.brukernavn;
     if (!brukernavn) return res.status(400).json({ error: 'Mangler brukernavn' });
@@ -33,6 +33,24 @@ app.get('/api/liste/:brukernavn', (req, res) => {
     res.json(rows);
 });
 
+// Rute for liste-IDer
+app.get('/api/liste_id', (req, res) => {
+    const rows = db.prepare('SELECT liste.listeid FROM liste').all();
+    res.json(rows);
+});
+
+// Rute for posting av en ny liste
+app.post('/api/ny_liste', express.json(), (req, res) => {
+    // Henter ut data fra request body (det som klienten har sendt inn)
+    const { bruker, type, listenavn, ny_listeid, elementArray } = req.body;
+
+    // // Legger inn den nye listen
+    // db.prepare('INSERT INTO liste (brukernavn, listenavn, type) VALUES (?, ?, ?, ?, ?)').run(brukernavn, listenavn, type);
+
+    // db.prepare('INSERT INTO element (innhold) VALUES (?, ?, ?, ?, ?)').run(listeElement);
+
+    res.status(201).json({ message: 'Listen er registrert!' });
+});
 
 // Åpner en viss port på serveren, og starter serveren
 app.listen(PORT, () => {
